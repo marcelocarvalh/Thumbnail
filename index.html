@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="author" content="Marcelo Carvalho">
+    <meta name="description" content="Pegar Thumbnail do Youtube - Site fácil de ser utilizado">
+    <meta name="keywords" content="pegar thumbnail, gerar thumbnail">
+    <meta name="robots" content="index,follow">
+    <meta property="og:title" content="Pegar Thumbnail">
+    <meta property="og:site_name" content="Pegar Thumbnail">
+    <meta property="og:description" content="Pegar Thumbnail do Youtube - Site fácil de ser utilizado">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="https://cursos.dankicode.com/og-img.jpg">
+    <meta property="og:image:type" content="./image/thumb.png">
+    <title>Pegar Thumbnail - Youtube</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 20px auto;
+            padding: 0 2%;
+            text-align: center;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 16px;
+            color: #555;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            border-radius: 8px;
+            height: 30px;
+            border: 1px solid #ccc;
+            padding: 5px;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            display: block;
+            margin: 15px 0;
+            font-size: 18px;
+            color: white;
+            width: 100%;
+            height: 40px;
+            cursor: pointer;
+            border: 0;
+            background-color: #44c78b;
+            border-radius: 8px;
+        }
+
+        .thumbnails img {
+            max-width: 100%;
+            margin: 10px;
+            border-radius: 8px;
+        }
+
+        .thumbnails {
+            margin-top: 20px;
+        }
+
+        footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Pegue Thumbnail de Qualquer Vídeo do Youtube</h2>
+        <p>Para pegar a Thumbnail do vídeo do Youtube<br>
+            Basta inserir a URL no formato abaixo:<br>
+            <b>http://www.youtube.com/watch?v=erLk59H86ww</b>
+        </p>
+        <input type="text" id="url" placeholder="Insira a URL do vídeo">
+        <input type="submit" value="Pegar Thumb!" onclick="getThumbnail()">
+        
+        <div class="thumbnails" id="thumbnails"></div>
+
+        <footer>
+            <p>Esta ferramenta foi desenvolvida por Marcelo Carvalho.</p>
+        </footer>
+    </div>
+
+    <script>
+        function getThumbnail() {
+            const url = document.getElementById('url').value.trim();
+            const videoId = getYouTubeVideoId(url);
+            if (videoId) {
+                displayThumbnails(videoId);
+            } else {
+                alert('URL inválida, por favor insira uma URL do YouTube.');
+            }
+        }
+
+        function getYouTubeVideoId(url) {
+            const regex = /(?:https?:\/\/(?:www\.)?youtube\.com\/(?:[^\/\n\s]+\/\S+|(?:v|e(?:mbed)?)\/([^\?&\"'>]+)|.*[?&]v=([^\?&\"'>]+)))/;
+            const match = url.match(regex);
+            return match && (match[1] || match[2]);
+        }
+
+        function displayThumbnails(videoId) {
+            const baseURL = 'https://img.youtube.com/vi/';
+            const thumbnailsContainer = document.getElementById('thumbnails');
+            thumbnailsContainer.innerHTML = `
+                <h3>Sua Thumbnail:</h3>
+                <img src="${baseURL}${videoId}/default.jpg" alt="Thumbnail padrão">
+                <img src="${baseURL}${videoId}/hqdefault.jpg" alt="Thumbnail de alta qualidade">
+                <img src="${baseURL}${videoId}/maxresdefault.jpg" alt="Thumbnail de máxima resolução">
+            `;
+        }
+    </script>
+</body>
+</html>
