@@ -117,15 +117,14 @@
 
         function getYouTubeVideoId(url) {
     const patterns = [
-        /(?:https?:\/\/(?:www\.)?youtube\.com\/(?:[^\/\n\s]+\/\S+|(?:v|e(?:mbed)?)\/([^\?&\"'>]+)|.*[?&]v=([^\?&\"'>]+)))/,
-        /(?:https?:\/\/(?:www\.)?youtu\.be\/([^\?&\"'>]+))/,
-        /(?:https?:\/\/(?:www\.)?youtu\.be\/([^\?&\"'>]+)(?:\?si=[^\&]+)?)/
+        /(?:https?:\/\/(?:www\.)?youtube\.com\/.*[?&]v=([^\?&\"'>]+))/,
+        /(?:https?:\/\/(?:www\.)?youtu\.be\/([^\?&\"'>]+))/
     ];
 
     for (const regex of patterns) {
         const match = url.match(regex);
         if (match) {
-            return match[1] || match[2];
+            return match[1];
         }
     }
     
