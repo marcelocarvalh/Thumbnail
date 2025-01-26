@@ -116,21 +116,53 @@
         }
 
         function getYouTubeVideoId(url) {
-            const regex = /(?:https?:\/\/(?:www\.)?youtube\.com\/(?:[^\/\n\s]+\/\S+|(?:v|e(?:mbed)?)\/([^\?&\"'>]+)|.*[?&]v=([^\?&\"'>]+)))/;
-            const match = url.match(regex);
-            return match && (match[1] || match[2]);
+    const patterns = [
+        /(?:https?:\/\/(?:www\.)?youtube\.com\/(?:[^\/\n\s]+\/\S+|(?:v|e(?:mbed)?)\/([^\?&\"'>]+)|.*[?&]v=([^\?&\"'>]+)))/,
+        /(?:https?:\/\/(?:www\.)?youtu\.be\/([^\?&\"'>]+))/,
+        /(?:https?:\/\/(?:www\.)?youtu\.be\/([^\?&\"'>]+)(?:\?si=[^\&]+)?)/
+    ];
+
+    for (const regex of patterns) {
+        const match = url.match(regex);
+        if (match) {
+            return match[1] || match[2];
         }
+    }
+    
+    return null;
+}
 
         function displayThumbnails(videoId) {
             const baseURL = 'https://img.youtube.com/vi/';
             const thumbnailsContainer = document.getElementById('thumbnails');
             thumbnailsContainer.innerHTML = `
                 <h3>Sua Thumbnail:</h3>
-                <img src="${baseURL}${videoId}/default.jpg" alt="Thumbnail padrão">
-                <img src="${baseURL}${videoId}/hqdefault.jpg" alt="Thumbnail de alta qualidade">
-                <img src="${baseURL}${videoId}/maxresdefault.jpg" alt="Thumbnail de máxima resolução">
-            `;
-        }
+        <div>
+            <img src="${baseURL}${videoId}/default.jpg" alt="Thumbnail padrão">
+            <p>
+                <a href="${baseURL}${videoId}/default.jpg" download="thumbnail_padrao.jpg" target="_blank">
+                    Baixar Thumbnail Padrão
+                </a>
+            </p>
+        </div>
+        <div>
+            <img src="${baseURL}${videoId}/hqdefault.jpg" alt="Thumbnail de alta qualidade">
+            <p>
+                <a href="${baseURL}${videoId}/hqdefault.jpg" download="thumbnail_hq.jpg" target="_blank">
+                    Baixar Thumbnail Alta Qualidade
+                </a>
+            </p>
+        </div>
+        <div>
+            <img src="${baseURL}${videoId}/maxresdefault.jpg" alt="Thumbnail de máxima resolução">
+            <p>
+                <a href="${baseURL}${videoId}/maxresdefault.jpg" download="thumbnail_maxres.jpg" target="_blank">
+                    Baixar Thumbnail Máxima Resolução
+                </a>
+            </p>
+        </div>
+    `;
+    }
     </script>
 </body>
 </html>
